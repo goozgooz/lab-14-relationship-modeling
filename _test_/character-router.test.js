@@ -13,17 +13,22 @@ let kvothe = {name:'kvothe'};
 let badGuy = {cool:'beans'};
 
 describe('character-router', () => {
-  beforeAll(server.start);
-  afterAll(server.stop);
-  afterEach(() => {
+  
+  var kvotheID;
+
+  beforeAll(() => {
+    server.start();
     return Character.remove({});
   });
+  afterAll(server.stop);
+
   
   describe('POST routes', () => {
     test('should return 200 and character name', () => {
       return request.post(url)
         .send(kvothe)
         .then(res => {
+          kvotheID = res.body._id;
           expect(res.status).toBe(200);
           expect(res.body.name).toBe(kvothe.name);
         });
@@ -38,22 +43,19 @@ describe('character-router', () => {
   });
 
   describe('GET routes', () => {
-    let tempId;
-    return request.post(url).send(kvothe)
-      .then(res => {
-        tempId = res.body._id;
-        return;
-      })
-      .then( () => {
-        test('should return 200 and correct character', () => {
-          return request.get(`url/${tempId}`)
-            .then(res => {
-              expect(res.status).toBe(200);
-            });
+    test('should return 200 and the character name', () => {
+      return request.get(url)
+        .then(res => {
+          expect(res.status).toBe(200);
         });
-      });
-
+    });
+    test('should return the corresponding character name', () => {
+      return request.get(`${url}/${kvotheID}`)
+        .then(res => {
+          expect(res.body.name).toBe('kvothe');
+        }); 
+    });
   });
-
 });
+
 
