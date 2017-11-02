@@ -7,7 +7,7 @@
     "start": "node index.js",
     "dbon" : "mkdir -p ./db && mongod --dbpath ./db",
     "dboff": "killall mongod",
-    "test": "jest -i -coverage"
+    "test": "jest -i --coverage"
   },
   "repository": {
     "type": "git",
