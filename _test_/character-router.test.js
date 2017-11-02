@@ -19,7 +19,7 @@ describe('character-router', () => {
     return Character.remove({});
   });
   
-  describe('post routes', () => {
+  describe('POST routes', () => {
     test('should return 200 and character name', () => {
       return request.post(url)
         .send(kvothe)
@@ -36,6 +36,24 @@ describe('character-router', () => {
         });
     });
   });
-  
+
+  describe('GET routes', () => {
+    let tempId;
+    return request.post(url).send(kvothe)
+      .then(res => {
+        tempId = res.body._id;
+        return;
+      })
+      .then( () => {
+        test('should return 200 and correct character', () => {
+          return request.get(`url/${tempId}`)
+            .then(res => {
+              expect(res.status).toBe(200);
+            });
+        });
+      });
+
+  });
+
 });
 
