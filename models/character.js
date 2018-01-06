@@ -8,15 +8,16 @@ const characterSchema = mongoose.Schema({
   book: {type: mongoose.Schema.Types.ObjectId, ref:'books'},
 });
 
-characterSchema.pre('save', function(done){
-  Book.findById(this.book)
-    .then(book => {
-      if(!book) return Promise.reject();
-      this.book = book._id;
-      return Promise.resolve();
-    })
-    .then((done))
-    .catch(done);
-});
+// characterSchema.pre('save', function(done){
+//   Book.findById(this.book)
+//     .then(book => {
+//       if(!book) return Promise.reject();
+//       this.book = book._id;
+//       return Promise.resolve();
+//     })
+//     .then((done))
+//     .catch(done);
+// });
 
 module.exports = mongoose.model('characters', characterSchema);
+
